@@ -1,3 +1,3 @@
 # demo1
 demo 
-login and prifile create
+login and profile create
