@@ -1,5 +1,7 @@
 package mavenapplication;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -8,9 +10,11 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 
 /*
 
@@ -294,7 +298,7 @@ public class Login extends javax.swing.JFrame {
         String uname = jTextField1.getText();
         String pass = String.valueOf(jPasswordField1.getPassword());
 
-        String query = "SELECT * FROM `demo_admin` WHERE `u_uname` =? AND `u_pass` =?";
+        String query = "SELECT * FROM `demo_admin` WHERE `email` =? AND `pass` =?";
 
         try {
             ps = MyConnection.getConnection().prepareStatement(query);
@@ -323,56 +327,45 @@ public class Login extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton_LOGINActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-        String st = "jComboBox1ActionPerformed";
-        System.out.println(st);
-        JOptionPane.showMessageDialog(null, st);
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 
-        DefaultComboBoxModel another = new DefaultComboBoxModel();
-        another.addElement("");
-        another.addElement("");
-        String query = "SELECT * FROM `server_list` WHERE `ip` =?";
+        fillist();
 
-        try {
-            PreparedStatement ps = MyConnection.getConnection().prepareStatement(query);
-            String ip = null;
+        AbstractAction enter = new AbstractAction() {
 
-            ps.setString(1, ip);
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-            ResultSet rs = null;
-            try {
-                rs = ps.executeQuery();
-            } catch (SQLException ex) {
-                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Login.class.getName()).log(Level.INFO, e.getActionCommand());
+
+                String ip = e.getActionCommand();
+                insertserver(ip);
+                fillist();
             }
+        };
 
-            while (en.hasMoreElements()) {
-                Object nextElement = en.nextElement();
+        jComboBox1.getInputMap()
+                .put(
+                        KeyStroke.getKeyStroke((char) KeyEvent.VK_ENTER
+                        ),
+                        enter
+                );
 
-            }
-            (rs.next()) {
-                HOME_JFrame mf = new HOME_JFrame();
-                mf.setVisible(true);
-                mf.pack();
-                mf.setLocationRelativeTo(null);
-                mf.setExtendedState(JFrame.MAXIMIZED_BOTH)
+        jComboBox1.getActionMap()
+                .put(
+                        KeyStroke.getKeyStroke((char) KeyEvent.VK_ENTER
+                        ),
+                        enter
+                );
 
-                this.dispose();
-            }else {
-                        JOptionPane.showMessageDialog(null,
-                    "lost ip);
-            }
+        jComboBox1.getEditor()
+                .addActionListener(enter);
 
-            jComboBox1.setModel(another);
     }//GEN-LAST:event_formWindowOpened
 
-
-
-
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     public static void main(String args[]) {
 
@@ -381,16 +374,21 @@ public class Login extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -419,7 +417,68 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
-    private void showMessageDialog(String ok) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void insertserver(String ip) {
+        if (!checkIP(ip)) {
+            JOptionPane.showMessageDialog(null, "Duplicated IP!");
+            return;
+        }
+        try {
+            PreparedStatement ps;
+            String query = "INSERT INTO `server_list`(`ip`) VALUES (?)";
+
+            ps = MyConnection.getConnection().prepareStatement(query);
+
+            int index = 1;
+            ps.setString(index++, ip); //ps.setString(index++, pass);
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
+
+    private void fillist() {
+        DefaultComboBoxModel another = new DefaultComboBoxModel();
+        another.addElement("");
+        String query = "SELECT ip FROM `server_list`";
+
+        try {
+            PreparedStatement ps = MyConnection.getConnection().prepareStatement(query);
+            String ip = null;
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                another.addElement(rs.getString("ip"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        jComboBox1.setModel(another);
+    }
+
+    private boolean checkIP(String ip) {
+        PreparedStatement ps;
+        ResultSet rs;
+        boolean checkUser = true;
+        String query = "SELECT * FROM `server_list` WHERE `ip` =?";
+
+        try {
+
+            ps = MyConnection.getConnection().prepareStatement(query);
+            ps.setString(1, ip);
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                checkUser = false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return checkUser;
+    }
+
 }
