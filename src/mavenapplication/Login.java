@@ -293,38 +293,9 @@ public class Login extends javax.swing.JFrame {
 
     private void jButton_LOGINActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_LOGINActionPerformed
 
-        PreparedStatement ps;
-        ResultSet rs;
         String uname = jTextField1.getText();
         String pass = String.valueOf(jPasswordField1.getPassword());
-
-        String query = "SELECT * FROM `demo_admin` WHERE `email` =? AND `pass` =?";
-
-        try {
-            ps = MyConnection.getConnection().prepareStatement(query);
-
-            ps.setString(1, uname);
-            ps.setString(2, pass);
-
-            rs = ps.executeQuery();
-
-            if (rs.next()) {
-                HOME_JFrame mf = new HOME_JFrame();
-                mf.setVisible(true);
-                mf.pack();
-                mf.setLocationRelativeTo(null);
-                mf.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                mf.jLabel1.setText("Welcome < " + uname + " >");
-
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "Incorrect Username Or Password", "Login Failed", 2);
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        login(uname, pass);
     }//GEN-LAST:event_jButton_LOGINActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -479,6 +450,38 @@ public class Login extends javax.swing.JFrame {
             Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
         }
         return checkUser;
+    }
+
+    private void login(String uname, String pass) {
+        String query = "SELECT * FROM `demo_admin` WHERE `email` =? AND `pass` =?";
+
+        PreparedStatement ps;
+        ResultSet rs;
+        try {
+            ps = MyConnection.getConnection().prepareStatement(query);
+
+            ps.setString(1, uname);
+            ps.setString(2, pass);
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                HOME_JFrame mf = new HOME_JFrame();
+                mf.setVisible(true);
+                mf.pack();
+                mf.setLocationRelativeTo(null);
+                mf.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                mf.jLabel1.setText("Welcome < " + uname + " >");
+
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Incorrect Username Or Password", "Login Failed", 2);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
 }
