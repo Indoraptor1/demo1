@@ -356,7 +356,7 @@ public class RegisterForm extends javax.swing.JFrame {
         String address = jTextArea_ADDRESS.getText();
 
         if (uname.equals("")) {
-            JOptionPane.showMessageDialog(null, "Add A Username", "Username", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Add an e-mail!", "e-mail", JOptionPane.WARNING_MESSAGE);
         } else if (pass.equals("")) {
             JOptionPane.showMessageDialog(null, "Add A Password", "Password", JOptionPane.WARNING_MESSAGE);
         } else if (!pass.equals(re_pass)) {
