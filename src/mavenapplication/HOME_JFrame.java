@@ -1,16 +1,7 @@
 package mavenapplication;
 
-
-
-/**
- *
- * @author 1BestCsharp
- */
 public class HOME_JFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form HOME_JFrame
-     */
     public HOME_JFrame() {
         initComponents();
     }
@@ -51,9 +42,8 @@ public class HOME_JFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
     public static void main(String args[]) {
-   
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
