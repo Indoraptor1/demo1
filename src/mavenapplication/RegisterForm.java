@@ -1,13 +1,12 @@
 package mavenapplication;
 
 /*
- 
 
-/**
+
+ /**
  *
 
  */
-
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -108,7 +107,7 @@ public class RegisterForm extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(236, 240, 241));
-        jLabel4.setText("Username:");
+        jLabel4.setText("e-mail:");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(236, 240, 241));
@@ -144,7 +143,7 @@ public class RegisterForm extends javax.swing.JFrame {
 
         jLabelRegister.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabelRegister.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelRegister.setText("click here to login");
+        jLabelRegister.setText("BACK");
         jLabelRegister.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabelRegister.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -197,46 +196,48 @@ public class RegisterForm extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
-                        .addComponent(jButton_CANCEL, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(jButton_Register_, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField_LN, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(89, 89, 89)
+                                .addComponent(jButton_CANCEL, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
+                                .addComponent(jButton_Register_, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField_FN, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(43, 43, 43)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextField_LN, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextField_FN, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jTextField_UN, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(12, 12, 12)
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jPasswordField_PASS, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(jLabel4)
+                                .addGap(34, 34, 34)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel9))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField_UN, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPasswordField_PASS, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel9))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPasswordField_REPASS, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dateChooserCombo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(146, 146, 146)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jPasswordField_REPASS, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(dateChooserCombo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 69, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabelRegister)))
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,9 +274,9 @@ public class RegisterForm extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_CANCEL, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton_Register_, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(30, 30, 30)
                 .addComponent(jLabelRegister)
-                .addGap(30, 30, 30))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -336,7 +337,7 @@ public class RegisterForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabelMinMouseClicked
 
     private void jLabelRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRegisterMouseClicked
-        Login lgf = new Login();
+        HOME_JFrame lgf = new HOME_JFrame();
         lgf.setVisible(true);
         lgf.pack();
         lgf.setLocationRelativeTo(null);
@@ -353,94 +354,76 @@ public class RegisterForm extends javax.swing.JFrame {
         String re_pass = String.valueOf(jPasswordField_REPASS.getPassword());
         String bdate = null;
         String address = jTextArea_ADDRESS.getText();
-                
-        if(uname.equals(""))
-        {
-            JOptionPane.showMessageDialog(null, "Add A Username");
-        }
-        
-        else if(pass.equals(""))
-        {
-            JOptionPane.showMessageDialog(null, "Add A Password");
-        }
-        else if(!pass.equals(re_pass))
-        {
-            JOptionPane.showMessageDialog(null, "Retype The Password Again");
-        }
-       
-        else if(checkUsername(uname))
-        {
-            JOptionPane.showMessageDialog(null, "This Username Already Exist");
-        }
-        
-        else{
-        
-        if(dateChooserCombo2.getSelectedDate() != null)
-        {
-            SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
-            bdate = dateformat.format(dateChooserCombo2.getSelectedDate().getTime());
-         }
-            
-        PreparedStatement ps;
-        String query = "INSERT INTO `demo_user`(`u_fname`, `u_lname`, `u_uname`, `u_bdate`, `u_address`) VALUES (?,?,?,?,?)";
-        
-        try {
-            ps = MyConnection.getConnection().prepareStatement(query);
-            
-            int index = 1;
-            ps.setString(index++, fname);
-            ps.setString(index++, lname);
-            ps.setString(index++, uname);
-            //ps.setString(index++, pass);
-            
-            if(bdate != null)
-            {
-             ps.setString(index++, bdate);
-            }else{
-                ps.setNull(index++, 0);
+
+        if (uname.equals("")) {
+            JOptionPane.showMessageDialog(null, "Add A Username", "Username", JOptionPane.WARNING_MESSAGE);
+        } else if (pass.equals("")) {
+            JOptionPane.showMessageDialog(null, "Add A Password", "Password", JOptionPane.WARNING_MESSAGE);
+        } else if (!pass.equals(re_pass)) {
+            JOptionPane.showMessageDialog(null, "Retype The Password Again", "Password", JOptionPane.WARNING_MESSAGE);
+        } else if (checkUsername(uname)) {
+            JOptionPane.showMessageDialog(null, "This Username Already Exist", "Username", JOptionPane.ERROR_MESSAGE);
+        } else {
+
+            if (dateChooserCombo2.getSelectedDate() != null) {
+                SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+                bdate = dateformat.format(dateChooserCombo2.getSelectedDate().getTime());
             }
-            ps.setString(index++, address);
-            
-            if(ps.executeUpdate() > 0)
-            {
-                JOptionPane.showMessageDialog(null, "New User Add");
+
+            PreparedStatement ps;
+            String query = "INSERT INTO `demo_user`(`u_fname`, `u_lname`, `u_uname`, `u_bdate`, `u_address`) VALUES (?,?,?,?,?)";
+
+            try {
+                ps = MyConnection.getConnection().prepareStatement(query);
+
+                int index = 1;
+                ps.setString(index++, fname);
+                ps.setString(index++, lname);
+                ps.setString(index++, uname);
+                //ps.setString(index++, pass);
+
+                if (bdate != null) {
+                    ps.setString(index++, bdate);
+                } else {
+                    ps.setNull(index++, 0);
+                }
+                ps.setString(index++, address);
+
+                if (ps.executeUpdate() > 0) {
+                    JOptionPane.showMessageDialog(null, "New User Add");
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
         }
     }//GEN-LAST:event_jButton_Register_ActionPerformed
 
-    
     // function to check if the username already exist
-    public boolean checkUsername(String username)
-    {
+    public boolean checkUsername(String username) {
         PreparedStatement ps;
         ResultSet rs;
         boolean checkUser = false;
         String query = "SELECT * FROM `demo_user` WHERE `u_uname` =?";
-        
+
         try {
 
             ps = MyConnection.getConnection().prepareStatement(query);
             ps.setString(1, username);
-            
+
             rs = ps.executeQuery();
-            
-            if(rs.next())
-            {
+
+            if (rs.next()) {
                 checkUser = true;
             }
         } catch (SQLException ex) {
             Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
         }
-         return checkUser;
+        return checkUser;
     }
-    
-    
+
     private void jButton_CANCELActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_CANCELActionPerformed
-       System.exit(0);
+        System.exit(0);
     }//GEN-LAST:event_jButton_CANCELActionPerformed
 
     /**
@@ -450,7 +433,7 @@ public class RegisterForm extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

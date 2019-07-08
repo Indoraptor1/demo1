@@ -210,7 +210,6 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(jButton_CANCEL, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(26, 26, 26)
                             .addComponent(jButton_LOGIN, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jLabelRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -221,6 +220,10 @@ public class Login extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(92, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -390,7 +393,14 @@ public class Login extends javax.swing.JFrame {
 
     private void insertserver(String ip) {
         if (!checkIP(ip)) {
-            JOptionPane.showMessageDialog(null, "Duplicated IP!");
+            /*
+             *                  <code>ERROR_MESSAGE</code>,
+             *                  <code>INFORMATION_MESSAGE</code>,
+             *                  <code>WARNING_MESSAGE</code>,
+             *                  <code>QUESTION_MESSAGE</code>,
+             *                  or <code>PLAIN_MESSAGE</code>
+             */
+            JOptionPane.showMessageDialog(null, "Duplicated IP!", "Error!", JOptionPane.WARNING_MESSAGE);
             return;
         }
         try {
@@ -483,5 +493,4 @@ public class Login extends javax.swing.JFrame {
         }
 
     }
-
 }
