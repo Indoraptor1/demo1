@@ -7,16 +7,13 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
-import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 
 public class HOME_JFrame extends javax.swing.JFrame {
 
     public HOME_JFrame() {
         initComponents();
-         //mf.jLabel1.setText("Welcome < " + Login.username + " >");
+        jLabel1.setText("Welcome <" + Login.username + ">!");
 
     }
 
@@ -48,15 +45,37 @@ public class HOME_JFrame extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "First name", "Last name", "B.Date", "Address", "e-mail"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                load(evt);
+            }
+        });
+        jTable1.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                show(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -64,27 +83,26 @@ public class HOME_JFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(154, 154, 154)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jButton1))))
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addGap(29, 29, 29)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(29, 29, 29)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE))
         );
 
         pack();
@@ -98,6 +116,15 @@ public class HOME_JFrame extends javax.swing.JFrame {
         rgf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void load(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_load
+        filltable();
+
+    }//GEN-LAST:event_load
+
+    private void show(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_show
+        filltable();
+    }//GEN-LAST:event_show
 
     public static void main(String args[]) {
 
@@ -135,7 +162,13 @@ public class HOME_JFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void filltable() {
-        DefaultTableModel another = new DefaultTableModel();
+        DefaultTableModel another;
+        if (jTable1.getModel() instanceof DefaultTableModel) {
+            another = (DefaultTableModel) jTable1.getModel();
+        } else {
+            another = new DefaultTableModel();
+        }
+
         String query = "SELECT u_fname, u_lname, u_bdate, u_address, u_uname FROM demo_user";
 
         try {
@@ -151,83 +184,19 @@ public class HOME_JFrame extends javax.swing.JFrame {
                 vector.add(rs.getString("u_address"));
                 vector.add(rs.getString("u_uname"));
                 another.addRow(vector);
+                Logger.getLogger(Login.class.getName()).log(Level.INFO, "adat érkezett");
             }
         } catch (SQLException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
-        TableColumnModel colmodel = new DefaultTableColumnModel();
-        colmodel.addColumn(new TableColumn(0, 75));
-        colmodel.addColumn(new TableColumn(1, 75));
-        colmodel.addColumn(new TableColumn(2, 75));
-        colmodel.addColumn(new TableColumn(3, 75));
-        colmodel.addColumn(new TableColumn(4, 75));
-        colmodel.addColumn(new TableColumn(5, 75));
 
-        jTable1.setColumnModel(colmodel);
-
+//        TableColumnModel colmodel = new DefaultTableColumnModel();
+//        colmodel.addColumn(new TableColumn(0, 75));
+//        colmodel.addColumn(new TableColumn(1, 75));
+//        colmodel.addColumn(new TableColumn(2, 75));
+//        colmodel.addColumn(new TableColumn(3, 75));
+//        colmodel.addColumn(new TableColumn(4, 75));
+//        jTable1.setColumnModel(colmodel);
         jTable1.setModel(another);
-    }
-}
-
-public class Main extends JFrame {
-
-    public Main() throws Exception {
-        ArrayList columnNames = new ArrayList();
-        ArrayList data = new ArrayList();
-        String url = "jdbc:mysql://localhost:3306/demo_user";
-        String userid = "root";
-        String password = "root";
-        String sql = "SELECT * FROM demo_users";
-
-        Connection connection = DriverManager.getConnection(url, userid, password);
-        Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery(sql);
-        ResultSetMetaData md = rs.getMetaData();
-        int columns = md.getColumnCount();
-        for (int i = 1; i <= columns; i++) {
-            columnNames.add(md.getColumnName(i));
-        }
-        while (rs.next()) {
-            ArrayList row = new ArrayList(columns);
-            for (int i = 1; i <= columns; i++) {
-                row.add(rs.getObject(i));
-            }
-            data.add(row);
-        }
-        Vector columnNamesVector = new Vector();
-        Vector dataVector = new Vector();
-        for (int i = 0; i < data.size(); i++) {
-            ArrayList subArray = (ArrayList) data.get(i);
-            Vector subVector = new Vector();
-            for (int j = 0; j < subArray.size(); j++) {
-                subVector.add(subArray.get(j));
-            }
-            dataVector.add(subVector);
-        }
-        for (int i = 0; i < columnNames.size(); i++) {
-            columnNamesVector.add(columnNames.get(i));
-        }
-        JTable table = new JTable(dataVector, columnNamesVector) {
-            public Class getColumnClass(int column) {
-                for (int row = 0; row < getRowCount(); row++) {
-                    Object o = getValueAt(row, column);
-                    if (o != null) {
-                        return o.getClass();
-                    }
-                }
-                return Object.class;
-            }
-        };
-        JScrollPane scrollPane = new JScrollPane(table);
-        getContentPane().add(scrollPane);
-        JPanel buttonPanel = new JPanel();
-        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-    }
-
-    public static void main(String[] args) throws Exception {
-        Main frame = new Main();
-        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
     }
 }
