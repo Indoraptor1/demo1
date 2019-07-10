@@ -145,6 +145,11 @@ public class Login extends javax.swing.JFrame {
         jTextField1.setBackground(new java.awt.Color(108, 122, 137));
         jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jTextField1.setForeground(new java.awt.Color(228, 241, 254));
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jPasswordField1.setBackground(new java.awt.Color(108, 122, 137));
         jPasswordField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -272,7 +277,8 @@ public class Login extends javax.swing.JFrame {
 
         String uname = jTextField1.getText();
         String pass = String.valueOf(jPasswordField1.getPassword());
-        login(uname, pass);
+        String serverip = jComboBox1.getSelectedItem().toString();
+        login(uname, pass, serverip);
     }//GEN-LAST:event_jButton_LOGINActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -312,8 +318,12 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     public static void main(String args[]) {
 
@@ -364,6 +374,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
     public static String username;
+    public static String password;
+    public static String serverip;
 
     private void insertserver(String ip) {
         if (!checkIP(ip)) {
@@ -436,7 +448,7 @@ public class Login extends javax.swing.JFrame {
         return checkUser;
     }
 
-    private void login(String uname, String pass) {
+    private void login(String uname, String pass, String szerverip) {
         String query = "SELECT * FROM `demo_admin` WHERE `email` =? AND `pass` =?";
 
         PreparedStatement ps;
@@ -466,5 +478,7 @@ public class Login extends javax.swing.JFrame {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
         username = uname;
+        password = pass;
+        serverip = szerverip;
     }
 }

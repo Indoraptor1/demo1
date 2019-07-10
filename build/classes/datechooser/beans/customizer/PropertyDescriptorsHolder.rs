@@ -1,2 +1,0 @@
-datechooser.beans.customizer.PropertyPair
-datechooser.beans.customizer.PropertyDescriptorsHolder

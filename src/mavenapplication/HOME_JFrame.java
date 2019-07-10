@@ -8,6 +8,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
 public class HOME_JFrame extends javax.swing.JFrame {
 
@@ -30,6 +38,7 @@ public class HOME_JFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jToggleButton1 = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -78,6 +87,13 @@ public class HOME_JFrame extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jTable1);
 
+        jToggleButton1.setText("Átvitel");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -86,22 +102,24 @@ public class HOME_JFrame extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(154, 154, 154)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1)
-                .addGap(29, 29, 29)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE))
         );
 
@@ -125,6 +143,11 @@ public class HOME_JFrame extends javax.swing.JFrame {
     private void show(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_show
         filltable();
     }//GEN-LAST:event_show
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        registerAllPerson();
+
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     public static void main(String args[]) {
 
@@ -159,7 +182,116 @@ public class HOME_JFrame extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
+
+    private void registerAllPerson() {
+
+        // lekérjük az összes embert akinek ninbcs a szerveren user_id
+        String query = "SELECT u_uname FROM demo_user WHERE user_id is NULL";
+
+        try {
+            PreparedStatement ps = MyConnection.getConnection().prepareStatement(query);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String email = rs.getString("u_uname");
+                registerOnePerson(email);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void registerOnePerson(String email) {
+
+        String query = "SELECT u_fname, u_lname, u_bdate, u_address, u_uname FROM demo_user WHERE u_uname = ?";
+
+        String fname;
+        String lname;
+        try {
+            PreparedStatement ps = MyConnection.getConnection().prepareStatement(query);
+
+            ps.setString(1, email);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (!rs.next()) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, "Ismeretlen felhasználó " + email);
+                return;
+            }
+
+            fname = rs.getString("u_fname");
+            lname = rs.getString("u_lname");
+            //rs.getString("u_bdate");
+            //rs.getString("u_address");
+            email = rs.getString("u_uname");
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, "SQL hiba " + email, ex);
+            return;
+        }
+
+        ClientConfig cfg = new ClientConfig();
+        HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic(Login.username, Login.password);
+
+        Client client = ClientBuilder
+                .newClient(cfg)
+                .register(feature);
+
+        Entity<String> body = Entity.json("{\n"
+                + "\"email\": \"" + email + "\",\n"
+                + "\"internationalMobileCallerId\": \"36\",\n"
+                + "\"subscriberMobileNumber\": \"201234567\",\n"
+                + "\"mobile\": \"36301111111\",\n"
+                + "\"displayName\": \"" + fname + " " + lname + "\",\n"
+                + "\"surName\": \"" + fname + "\",\n"
+                + "\"givenName\": \"" + lname + "\",\n"
+                + "\"domainId\": 18,\n"
+                + "\"status\": \"ACTIVE\",\n"
+                + "\"language\": \"HU\",\n"
+                + "\"secondFactorEnabled\" : true,\n"
+                + "\"roleIds\": [\n"
+                + "121\n"
+                + "]\n"
+                + "}");
+
+        // megkapjuk a szerver user_id -t
+        Response response = client
+                .target(Login.serverip)
+                .path("rest")
+                .path("user")
+                .request(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+                .post(body);
+
+        Logger.getLogger(Login.class.getName()).log(Level.INFO, response.toString());
+
+        // szerver user_oid-t beírjuk a helyi adatbázisba
+        if (response.getStatus() == 200) {
+            String userId = response.toString();
+            updateUser(email, userId);
+        } else {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, "HIBÁS EMAIL CÍM:" + email);
+        }
+    }
+
+    private void updateUser(String email, String userId) {
+        String query = "UPDATE demo_user SET user_id = ? WHERE  u_uname = ?";
+
+        try {
+            PreparedStatement ps = MyConnection.getConnection().prepareStatement(query);
+
+            ps.setString(1, userId);
+            ps.setString(2, email);
+
+            ps.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     private void filltable() {
         DefaultTableModel another;
@@ -184,7 +316,7 @@ public class HOME_JFrame extends javax.swing.JFrame {
                 vector.add(rs.getString("u_address"));
                 vector.add(rs.getString("u_uname"));
                 another.addRow(vector);
-                Logger.getLogger(Login.class.getName()).log(Level.INFO, "adat érkezett");
+//Logger.getLogger(Login.class.getName()).log(Level.INFO, "adat érkezett");
             }
         } catch (SQLException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
