@@ -7,15 +7,11 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
 public class HOME_JFrame extends javax.swing.JFrame {
 
@@ -218,7 +214,8 @@ public class HOME_JFrame extends javax.swing.JFrame {
             ResultSet rs = ps.executeQuery();
 
             if (!rs.next()) {
-                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, "Ismeretlen felhasználó " + email);
+                //Logger.getLogger(Login.class.getName()).log(Level.SEVERE, "Ismeretlen felhasználó " + email)
+                JOptionPane.showMessageDialog(null, "Ismeretlen felhasználó " + email, "Felhasználó", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -228,16 +225,10 @@ public class HOME_JFrame extends javax.swing.JFrame {
             //rs.getString("u_address");
             email = rs.getString("u_uname");
         } catch (SQLException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, "SQL hiba " + email, ex);
+            //Logger.getLogger(Login.class.getName()).log(Level.SEVERE, "SQL hiba " + email, ex);
+            JOptionPane.showMessageDialog(null, "SQL hiba " + email, "e-mail", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
-        ClientConfig cfg = new ClientConfig();
-        HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic(Login.username, Login.password);
-
-        Client client = ClientBuilder
-                .newClient(cfg)
-                .register(feature);
 
         Entity<String> body = Entity.json("{\n"
                 + "\"email\": \"" + email + "\",\n"
@@ -256,24 +247,31 @@ public class HOME_JFrame extends javax.swing.JFrame {
                 + "]\n"
                 + "}");
 
+        Logger.getLogger(Login.class.getName()).log(Level.INFO, "connect");
+
         // megkapjuk a szerver user_id -t
-        Response response = client
+        Response response = MyConnection.getClient()
                 .target(Login.serverip)
                 .path("rest")
                 .path("user")
                 .request(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-                .post(body);
+                //.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+                .buildPost(body)
+                .invoke();
 
         Logger.getLogger(Login.class.getName()).log(Level.INFO, response.toString());
 
         // szerver user_oid-t beírjuk a helyi adatbázisba
-        if (response.getStatus() == 200) {
-            String userId = response.toString();
+        if (response.getStatus() == 201) {
+            String userId = response
+                    .readEntity(String.class);
             updateUser(email, userId);
+
         } else {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, "HIBÁS EMAIL CÍM:" + email);
+            //Logger.getLogger(Login.class.getName()).log(Level.SEVERE, "HIBÁS EMAIL CÍM:" + email);
+            JOptionPane.showMessageDialog(null, "HIBÁS EMAIL CÍM:" + email, "Hibás e-mail", JOptionPane.WARNING_MESSAGE);
         }
+
     }
 
     private void updateUser(String email, String userId) {
@@ -290,7 +288,7 @@ public class HOME_JFrame extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        JOptionPane.showMessageDialog(null, "Az átvitel sikeres", "Siker", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void filltable() {
@@ -299,6 +297,11 @@ public class HOME_JFrame extends javax.swing.JFrame {
             another = (DefaultTableModel) jTable1.getModel();
         } else {
             another = new DefaultTableModel();
+        }
+
+        int rows = another.getRowCount();
+        for (int i = 1; i <= rows; i++) {
+            another.removeRow(0);
         }
 
         String query = "SELECT u_fname, u_lname, u_bdate, u_address, u_uname FROM demo_user";
